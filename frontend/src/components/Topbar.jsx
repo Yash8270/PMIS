@@ -1,4 +1,6 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import PMISContext from '../context/PMISContext';
 import { MdSearch, MdNotifications, MdSettings } from 'react-icons/md';
 import './Topbar.css';
 
@@ -11,11 +13,19 @@ const routeTitles = {
     '/communication': 'Communication & Collaboration',
     '/risks': 'Risk Management',
     '/reporting': 'Reporting & Decision Support',
+    '/profile': 'My Profile',
+    '/settings': 'Settings',
+    '/notifications': 'Notifications',
 };
 
 export default function Topbar({ collapsed }) {
     const location = useLocation();
+    const navigate = useNavigate();
+    const { authdata } = useContext(PMISContext);
+    
     const title = routeTitles[location.pathname] || 'PMIS';
+    const user = authdata?.user || authdata; // Handle potential nesting depending on how login returns it
+    const userInitials = user?.avatar_initials ? user.avatar_initials : user?.name ? user.name.substring(0, 2).toUpperCase() : 'U';
 
     return (
         <header className={`topbar ${collapsed ? 'collapsed' : ''}`}>
@@ -33,17 +43,22 @@ export default function Topbar({ collapsed }) {
                     <input placeholder="Search..." />
                 </div>
 
-                <button className="icon-btn notification-btn">
+                <button className="icon-btn notification-btn" onClick={() => navigate('/notifications')}>
                     <MdNotifications />
                     <span className="notif-dot" />
                 </button>
 
-                <button className="icon-btn">
+                <button className="icon-btn" onClick={() => navigate('/settings')}>
                     <MdSettings />
                 </button>
 
-                <div className="avatar topbar-avatar" style={{ background: 'var(--gradient-primary)' }}>
-                    YL
+                <div 
+                    className="avatar topbar-avatar" 
+                    style={{ background: 'var(--gradient-primary)', cursor: 'pointer' }}
+                    onClick={() => navigate('/profile')}
+                    title="My Profile"
+                >
+                    {userInitials}
                 </div>
             </div>
         </header>

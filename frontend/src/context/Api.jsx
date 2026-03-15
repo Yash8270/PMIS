@@ -142,6 +142,29 @@ const Api = (props) => {
         setProjects([]);
     };
 
+    const updateUserDetails = async (userId, data) => {
+        try {
+            const res = await apiFetch(`${host}/api/users/${userId}`, { 
+                method: 'PUT',
+                body: JSON.stringify(data)
+            });
+            const json = await res.json();
+            
+            if (json.success) {
+                // Also fetch the full user back from `/auth/me` to ensure context is perfectly synced,
+                // or just merge what we sent explicitly. Let's merge locally.
+                setAuthdata(prev => {
+                    const mergedUser = { ...(prev.user || prev), ...data };
+                    localStorage.setItem('pmis_user', JSON.stringify(mergedUser));
+                    return { ...prev, user: mergedUser };
+                });
+            }
+            return json;
+        } catch (err) {
+            return { success: false, message: 'Network error.' };
+        }
+    };
+
     // ════════════════════════════════════════════════════════════════════════════
     // ── PROJECTS ─────────────────────────────────────────────────────────────
     // ════════════════════════════════════════════════════════════════════════════
@@ -553,7 +576,7 @@ const Api = (props) => {
 
     return (
         <PMISContext.Provider value={{
-            authdata, authLoading, login, register, logout,
+            authdata, authLoading, login, register, logout, updateUserDetails,
             pageLoading, setPageLoading,
             projects, activeProject, setActiveProject,
             projectStats, fetchProjects, createProject, updateProject,

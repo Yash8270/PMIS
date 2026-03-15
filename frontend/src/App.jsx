@@ -13,6 +13,9 @@ import Communication from './pages/Communication';
 import RiskManagement from './pages/RiskManagement';
 import Reporting from './pages/Reporting';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
+import Settings from './pages/Settings';
+import Notifications from './pages/Notifications';
 
 // Inner component so it can access context
 function AppInner() {
@@ -51,6 +54,9 @@ function AppInner() {
           <Route path="/communication" element={<Communication />} />
           <Route path="/risks" element={<RiskManagement />} />
           <Route path="/reporting" element={<Reporting />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

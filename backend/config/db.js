@@ -4,7 +4,7 @@ require('dotenv').config();
 const pool = mysql.createPool({
     host: process.env.HOST,
     port: process.env.DB_PORT,
-    user: process.env.USERNAME,
+    user: process.env.DB_USER,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
     ssl: { rejectUnauthorized: true },   // Required for TiDB Cloud

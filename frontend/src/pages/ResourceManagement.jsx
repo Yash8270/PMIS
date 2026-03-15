@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import PMISContext from '../context/PMISContext';
 import { MdAdd, MdSearch } from 'react-icons/md';
 
@@ -118,7 +118,8 @@ export default function ResourceManagement() {
                     />
                 ) : (
                     <div style={{ overflowX: 'auto' }}>
-                        <table className="pmis-table">
+                        <div className="table-responsive">
+                            <table className="pmis-table">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -178,7 +179,8 @@ export default function ResourceManagement() {
                                     );
                                 })}
                             </tbody>
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 )}
             </div>

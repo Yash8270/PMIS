@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { MdAdd, MdSearch, MdFilterList } from 'react-icons/md';
 import PMISContext from '../context/PMISContext';
 
@@ -100,15 +100,16 @@ export default function PlanningScheduling() {
                 {tasks.length === 0 ? (
                     <EmptyState icon="📅" title="No Tasks Scheduled" sub="Create tasks to see them on the Gantt chart. Assign phases, durations, and assignees." action="Add First Task" onAction={() => setShowForm(true)} />
                 ) : (
-                    <>
-                        {/* Month headers */}
-                        <div style={{ display: 'flex', marginLeft: 180, marginBottom: 6 }}>
-                            {months.map((m, i) => (
-                                <div key={i} style={{ flex: 1, fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', fontWeight: 600, letterSpacing: '0.5px' }}>{m}</div>
-                            ))}
-                        </div>
-                        <div style={{ overflowX: 'auto' }}>
-                            {tasks.map((task) => {
+                    <div className="table-responsive">
+                        <div style={{ minWidth: 600 }}>
+                            {/* Month headers */}
+                            <div style={{ display: 'flex', marginLeft: 180, marginBottom: 6 }}>
+                                {months.map((m, i) => (
+                                    <div key={i} style={{ flex: 1, fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', fontWeight: 600, letterSpacing: '0.5px' }}>{m}</div>
+                                ))}
+                            </div>
+                            <div>
+                                {tasks.map((task) => {
                                 const phaseColor = PHASE_COLORS[task.phase_name] || '#10b981';
                                 return (
                                     <div key={task.task_id} style={{ display: 'flex', alignItems: 'center', marginBottom: 6, height: 36 }}>
@@ -149,8 +150,9 @@ export default function PlanningScheduling() {
                                     </div>
                                 );
                             })}
+                            </div>
                         </div>
-                    </>
+                    </div>
                 )}
             </div>
 
@@ -158,8 +160,8 @@ export default function PlanningScheduling() {
             <div className="glass-card section-card">
                 <div className="flex-between" style={{ marginBottom: 16 }}>
                     <div className="section-card-title" style={{ margin: 0 }}><span className="title-icon">📋</span>Task Register</div>
-                    <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                        <div className="search-bar" style={{ minWidth: 180 }}>
+                    <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                        <div className="search-bar" style={{ flex: '1 1 180px' }}>
                             <MdSearch size={14} />
                             <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search tasks..." />
                         </div>
@@ -174,7 +176,8 @@ export default function PlanningScheduling() {
                     <EmptyState icon="📋" title={tasks.length === 0 ? "No Tasks Yet" : "No Matching Tasks"} sub={tasks.length === 0 ? "Click \"New Task\" to add your first task to this project." : "Try changing your filters or search query."} />
                 ) : (
                     <div style={{ overflowX: 'auto' }}>
-                        <table className="pmis-table">
+                        <div className="table-responsive">
+                            <table className="pmis-table">
                             <thead>
                                 <tr><th>ID</th><th>Task Name</th><th>Phase</th><th>Start Day</th><th>Duration</th><th>Dependencies</th><th>Assignee</th><th>Status</th><th>Critical</th></tr>
                             </thead>
@@ -199,7 +202,8 @@ export default function PlanningScheduling() {
                                     </tr>
                                 ))}
                             </tbody>
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 )}
             </div>
@@ -218,7 +222,7 @@ export default function PlanningScheduling() {
                                 <option value="">Select phase (optional)</option>
                                 {phases.map(p => <option key={p.phase_id} value={p.phase_id}>{p.phase_name}</option>)}
                             </select>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                            <div className="form-grid-2">
                                 <input className="pmis-input" type="number" placeholder="Start day *" value={form.start_day} onChange={e => setForm({ ...form, start_day: e.target.value })} />
                                 <input className="pmis-input" type="number" placeholder="Duration (days) *" value={form.duration_days} onChange={e => setForm({ ...form, duration_days: e.target.value })} />
                             </div>

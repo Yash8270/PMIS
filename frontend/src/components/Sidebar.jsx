@@ -16,17 +16,23 @@ const navItems = [
   { to: '/reporting',         icon: <MdBarChart />,     label: 'Reporting' },
 ];
 
-export default function Sidebar({ collapsed, onToggle }) {
+export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
   return (
-    <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+    <aside className={`sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
       {/* Brand */}
       <div className="sidebar-brand">
         <div className="brand-logo">
           <span className="brand-icon">⬡</span>
           {!collapsed && <span className="brand-text">PMIS <span className="brand-accent">Pro</span></span>}
         </div>
-        <button className="collapse-btn" onClick={onToggle}>
-          {collapsed ? <MdMenu /> : <MdClose />}
+        <button className="collapse-btn" onClick={() => {
+          if (mobileOpen && window.innerWidth <= 768) {
+            onCloseMobile();
+          } else {
+            onToggle();
+          }
+        }}>
+          {collapsed && !(mobileOpen && window.innerWidth <= 768) ? <MdMenu /> : <MdClose />}
         </button>
       </div>
 
@@ -42,6 +48,11 @@ export default function Sidebar({ collapsed, onToggle }) {
             end={to === '/'}
             className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
             title={collapsed ? label : ''}
+            onClick={() => {
+              if (mobileOpen && window.innerWidth <= 768) {
+                onCloseMobile();
+              }
+            }}
           >
             <span className="nav-icon">{icon}</span>
             {!collapsed && <span className="nav-label-text">{label}</span>}

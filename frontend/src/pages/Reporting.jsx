@@ -1,4 +1,4 @@
-﻿import { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
     AreaChart, Area, BarChart, Bar,
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
@@ -199,7 +199,8 @@ export default function Reporting() {
                     <div className="section-card-title"><span className="title-icon">📋</span>Earned Value Performance Summary</div>
                     {hasData ? (
                         <div style={{ overflowX: 'auto' }}>
-                            <table className="pmis-table">
+                            <div className="table-responsive">
+                                <table className="pmis-table">
                                 <thead>
                                     <tr><th>Metric</th><th>Value</th><th>Variance</th><th>Status</th></tr>
                                 </thead>
@@ -213,7 +214,8 @@ export default function Reporting() {
                                         </tr>
                                     ))}
                                 </tbody>
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     ) : (
                         <EmptyState icon="📋" title="No Data to Compute" sub="EVM metrics will appear once tasks, budget, and expenses are added." />
@@ -224,7 +226,7 @@ export default function Reporting() {
             {/* Report Modal */}
             {reportModal && (
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div className="glass-card" style={{ padding: 36, width: 620, maxHeight: '80vh', overflowY: 'auto', border: '1px solid rgba(16,185,129,0.3)' }}>
+                    <div className="glass-card" style={{ padding: 36, width: '100%', maxWidth: 620, maxHeight: '80vh', overflowY: 'auto', border: '1px solid rgba(16,185,129,0.3)' }}>
                         <div className="flex-between" style={{ marginBottom: 24 }}>
                             <div>
                                 <h2 style={{ fontFamily: 'Poppins', fontSize: 20, fontWeight: 700 }}>Monthly Project Report</h2>
@@ -232,7 +234,7 @@ export default function Reporting() {
                             </div>
                             <button className="btn btn-secondary btn-sm" onClick={() => setReportModal(false)}>✕ Close</button>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+                        <div className="form-grid-2" style={{ gap: 16, marginBottom: 20 }}>
                             {[
                                 ['Project', activeProject?.name || '—'],
                                 ['Status', activeProject?.status || '—'],

@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import PMISContext from '../context/PMISContext';
-import { MdSearch, MdNotifications, MdSettings } from 'react-icons/md';
+import { MdSearch, MdNotifications, MdSettings, MdMenu } from 'react-icons/md';
 import './Topbar.css';
 
 const routeTitles = {
@@ -18,7 +18,7 @@ const routeTitles = {
     '/notifications': 'Notifications',
 };
 
-export default function Topbar({ collapsed }) {
+export default function Topbar({ collapsed, onToggleMobile }) {
     const location = useLocation();
     const navigate = useNavigate();
     const { authdata } = useContext(PMISContext);
@@ -30,6 +30,9 @@ export default function Topbar({ collapsed }) {
     return (
         <header className={`topbar ${collapsed ? 'collapsed' : ''}`}>
             <div className="topbar-left">
+                <button className="icon-btn mobile-menu-btn" onClick={onToggleMobile}>
+                    <MdMenu />
+                </button>
                 <div className="breadcrumb">
                     <span className="breadcrumb-root">PMIS</span>
                     <span className="breadcrumb-sep">›</span>

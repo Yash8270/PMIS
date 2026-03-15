@@ -1,4 +1,4 @@
-﻿.topbar {
+.topbar {
     position: fixed;
     top: 0;
     left: var(--sidebar-width);
@@ -94,9 +94,23 @@
     border-color: var(--accent-primary);
 }
 
+.mobile-menu-btn {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .topbar {
         left: 0;
+    }
+
+    .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
     }
 
     .search-bar {

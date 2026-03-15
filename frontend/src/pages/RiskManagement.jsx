@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import PMISContext from '../context/PMISContext';
 import { MdAdd } from 'react-icons/md';
@@ -94,7 +94,8 @@ export default function RiskManagement() {
                     {risks.length === 0 ? (
                         <EmptyState icon="🎯" title="No Risks to Plot" sub="Log risks and the matrix will plot them by probability and impact score." />
                     ) : (
-                        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: `24px repeat(${MATRIX_SIZE}, 1fr)`, gridTemplateRows: `repeat(${MATRIX_SIZE}, 1fr) 24px`, gap: 3, height: 260 }}>
+                        <div className="table-responsive" style={{ paddingBottom: 8 }}>
+                        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: `24px repeat(${MATRIX_SIZE}, 1fr)`, gridTemplateRows: `repeat(${MATRIX_SIZE}, 1fr) 24px`, gap: 3, minWidth: 400, height: 260 }}>
                             {/* Y axis label */}
                             {Array.from({ length: MATRIX_SIZE }, (_, r) => MATRIX_SIZE - r).map(row => (
                                 <div key={`y-${row}`} style={{ gridRow: MATRIX_SIZE - row + 1, gridColumn: 1, fontSize: 9, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{row}</div>
@@ -120,6 +121,7 @@ export default function RiskManagement() {
                             {Array.from({ length: MATRIX_SIZE }, (_, c) => c + 1).map(col => (
                                 <div key={`x-${col}`} style={{ gridRow: MATRIX_SIZE + 1, gridColumn: col + 1, fontSize: 9, color: 'var(--text-muted)', textAlign: 'center' }}>{col}</div>
                             ))}
+                        </div>
                         </div>
                     )}
                     <div style={{ display: 'flex', gap: 12, marginTop: 8, justifyContent: 'center' }}>
@@ -180,7 +182,7 @@ export default function RiskManagement() {
             <div className="glass-card section-card">
                 <div className="flex-between" style={{ marginBottom: 16 }}>
                     <div className="section-card-title" style={{ margin: 0 }}><span className="title-icon">📋</span>Risk Register</div>
-                    <div style={{ display: 'flex', gap: 6 }}>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                         {['all', 'open', 'high', 'closed'].map(f => (
                             <button key={f} onClick={() => setFilter(f)} className={`btn btn-sm ${filter === f ? 'btn-primary' : 'btn-secondary'}`} style={{ textTransform: 'capitalize' }}>{f}</button>
                         ))}
@@ -191,7 +193,8 @@ export default function RiskManagement() {
                     <EmptyState icon="📋" title={risks.length === 0 ? "No Risks Logged" : "No Matching Risks"} sub={risks.length === 0 ? "Click \"Log Risk\" to identify and track project risks. Use the matrix to visualize their severity." : "Try changing the filter above."} action={risks.length === 0 ? "Log First Risk" : null} onAction={() => setShowForm(true)} />
                 ) : (
                     <div style={{ overflowX: 'auto' }}>
-                        <table className="pmis-table">
+                        <div className="table-responsive">
+                            <table className="pmis-table">
                             <thead>
                                 <tr><th>ID</th><th>Title</th><th>Category</th><th>Probability</th><th>Impact</th><th>Score</th><th>Level</th><th>Status</th><th>Trend</th><th>Actions</th></tr>
                             </thead>
@@ -231,7 +234,8 @@ export default function RiskManagement() {
                                     );
                                 })}
                             </tbody>
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 )}
             </div>
@@ -239,7 +243,7 @@ export default function RiskManagement() {
             {/* Log Risk Modal */}
             {showForm && (
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div className="glass-card" style={{ padding: 32, width: 500, border: '1px solid rgba(16,185,129,0.3)' }}>
+                    <div className="glass-card" style={{ padding: 32, width: '100%', maxWidth: 500, border: '1px solid rgba(16,185,129,0.3)' }}>
                         <div className="flex-between" style={{ marginBottom: 20 }}>
                             <h2 style={{ fontSize: 18, fontWeight: 700 }}>Log New Risk</h2>
                             <button className="btn btn-secondary btn-sm" onClick={() => setShowForm(false)}>✕</button>
@@ -249,7 +253,7 @@ export default function RiskManagement() {
                             <select className="pmis-input" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} style={{ background: 'rgba(0,0,0,0.3)' }}>
                                 {['Financial', 'Technical', 'Schedule Delay', 'Safety & Compliance', 'Environmental', 'Third-party'].map(c => <option key={c}>{c}</option>)}
                             </select>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                            <div className="form-grid-2">
                                 <div>
                                     <label style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4, display: 'block' }}>Probability (1–5): <strong style={{ color: '#10b981' }}>{form.probability}</strong></label>
                                     <input type="range" min="1" max="5" value={form.probability} onChange={e => setForm({ ...form, probability: e.target.value })} style={{ width: '100%', accentColor: '#10b981' }} />
@@ -264,7 +268,7 @@ export default function RiskManagement() {
                                 <span style={{ fontSize: 20, fontWeight: 800, fontFamily: 'Poppins,sans-serif', color: getRiskLevel(form.probability * form.impact).color }}>{form.probability * form.impact}</span>
                                 <span style={{ marginLeft: 8, fontSize: 12, color: getRiskLevel(form.probability * form.impact).color }}>({getRiskLevel(form.probability * form.impact).label})</span>
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                            <div className="form-grid-2">
                                 <select className="pmis-input" value={form.trend} onChange={e => setForm({ ...form, trend: e.target.value })} style={{ background: 'rgba(0,0,0,0.3)' }}>
                                     <option value="stable">Stable →</option>
                                     <option value="increasing">Increasing ↑</option>

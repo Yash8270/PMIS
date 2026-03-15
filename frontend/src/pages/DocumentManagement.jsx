@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import PMISContext from '../context/PMISContext';
 import { MdAdd, MdSearch, MdFolder, MdUploadFile, MdHistory } from 'react-icons/md';
 
@@ -72,7 +72,7 @@ export default function DocumentManagement() {
                 ))}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: 20 }}>
+            <div className="sidebar-layout">
                 {/* Folder Sidebar */}
                 <div className="glass-card" style={{ padding: 16, height: 'fit-content' }}>
                     <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Folders</p>
@@ -127,7 +127,8 @@ export default function DocumentManagement() {
                         />
                     ) : (
                         <div style={{ overflowX: 'auto' }}>
-                            <table className="pmis-table">
+                            <div className="table-responsive">
+                                <table className="pmis-table">
                                 <thead>
                                     <tr><th>Document</th><th>Type</th><th>Folder</th><th>Uploaded By</th><th>Version</th><th>Status</th><th>Actions</th></tr>
                                 </thead>
@@ -168,7 +169,8 @@ export default function DocumentManagement() {
                                         </tr>
                                     ))}
                                 </tbody>
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     )}
                 </div>

@@ -1,4 +1,4 @@
-﻿import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import PMISContext from '../context/PMISContext';
 import { MdAdd, MdSend, MdDelete } from 'react-icons/md';
 
@@ -70,7 +70,7 @@ export default function Communication() {
             </div>
 
             {/* Tabs */}
-            <div style={{ display: 'flex', gap: 6, marginBottom: 20 }}>
+            <div style={{ display: 'flex', gap: 6, marginBottom: 20, flexWrap: 'wrap' }}>
                 {['channels', 'announcements', 'workspaces'].map(t => (
                     <button key={t} onClick={() => setTab(t)} className={`btn ${tab === t ? 'btn-primary' : 'btn-secondary'}`} style={{ textTransform: 'capitalize' }}>
                         {t === 'channels' ? '💬' : t === 'announcements' ? '📢' : '🗂️'} {t}
@@ -85,9 +85,9 @@ export default function Communication() {
                         <EmptyState icon="💬" title="No Channels Yet" sub="Create team channels to organize project communication by topic or work area." action="Create First Channel" onAction={() => setShowChannelForm(true)} />
                     </div>
                 ) : (
-                    <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 20 }}>
+                    <div className="chat-layout">
                         {/* Channel List */}
-                        <div className="glass-card" style={{ padding: 16, height: 520, overflowY: 'auto' }}>
+                        <div className="glass-card chat-list">
                             <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Channels</p>
                             {channels.map(c => (
                                 <div key={c.channel_id} onClick={() => setActiveChannel(c)}
@@ -104,7 +104,7 @@ export default function Communication() {
                         </div>
 
                         {/* Message Area */}
-                        <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', height: 520 }}>
+                        <div className="glass-card chat-messages">
                             {activeChannel ? (
                                 <>
                                     <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border-glass)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
@@ -210,7 +210,7 @@ export default function Communication() {
             {/* ── Modals ── */}
             {showChannelForm && (
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div className="glass-card" style={{ padding: 32, width: 420, border: '1px solid rgba(16,185,129,0.3)' }}>
+                    <div className="glass-card" style={{ padding: 32, width: '100%', maxWidth: 420, border: '1px solid rgba(16,185,129,0.3)' }}>
                         <div className="flex-between" style={{ marginBottom: 20 }}><h2 style={{ fontSize: 18, fontWeight: 700 }}>New Channel</h2><button className="btn btn-secondary btn-sm" onClick={() => setShowChannelForm(false)}>✕</button></div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                             <input className="pmis-input" placeholder="Channel name *" value={channelForm.channel_name} onChange={e => setChannelForm({ ...channelForm, channel_name: e.target.value })} />
@@ -226,7 +226,7 @@ export default function Communication() {
 
             {showAnnouncementForm && (
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div className="glass-card" style={{ padding: 32, width: 480, border: '1px solid rgba(16,185,129,0.3)' }}>
+                    <div className="glass-card" style={{ padding: 32, width: '100%', maxWidth: 480, border: '1px solid rgba(16,185,129,0.3)' }}>
                         <div className="flex-between" style={{ marginBottom: 20 }}><h2 style={{ fontSize: 18, fontWeight: 700 }}>New Announcement</h2><button className="btn btn-secondary btn-sm" onClick={() => setShowAnnouncementForm(false)}>✕</button></div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                             <input className="pmis-input" placeholder="Title *" value={announceForm.title} onChange={e => setAnnounceForm({ ...announceForm, title: e.target.value })} />
@@ -247,7 +247,7 @@ export default function Communication() {
 
             {showWorkspaceForm && (
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div className="glass-card" style={{ padding: 32, width: 380, border: '1px solid rgba(16,185,129,0.3)' }}>
+                    <div className="glass-card" style={{ padding: 32, width: '100%', maxWidth: 380, border: '1px solid rgba(16,185,129,0.3)' }}>
                         <div className="flex-between" style={{ marginBottom: 20 }}><h2 style={{ fontSize: 18, fontWeight: 700 }}>New Workspace</h2><button className="btn btn-secondary btn-sm" onClick={() => setShowWorkspaceForm(false)}>✕</button></div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                             <input className="pmis-input" placeholder="Workspace name *" value={wsForm.name} onChange={e => setWsForm({ ...wsForm, name: e.target.value })} />

@@ -140,7 +140,8 @@ export default function CostManagement() {
                 ) : (
                     <>
                         <div style={{ overflowX: 'auto' }}>
-                            <table className="pmis-table">
+                            <div className="table-responsive">
+                                <table className="pmis-table">
                                 <thead>
                                     <tr><th>ID</th><th>Description</th><th>Category</th><th>Date</th><th>Amount</th><th>Status</th><th>Actions</th></tr>
                                 </thead>
@@ -166,7 +167,8 @@ export default function CostManagement() {
                                         </tr>
                                     ))}
                                 </tbody>
-                            </table>
+                                </table>
+                            </div>
                         </div>
                         <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--border-glass)', display: 'flex', justifyContent: 'flex-end' }}>
                             <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>

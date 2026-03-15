@@ -8,8 +8,8 @@
     border-right: 1px solid var(--border-glass);
     display: flex;
     flex-direction: column;
-    z-index: 100;
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 110;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
@@ -200,4 +200,15 @@
 .user-role {
     font-size: 11px;
     color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: 260px !important;
+    }
+    .sidebar.mobile-open {
+        transform: translateX(0);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+    }
 }

@@ -21,6 +21,7 @@ import Notifications from './pages/Notifications';
 function AppInner() {
   const { authdata, authLoading } = useContext(PMISContext);
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Show nothing while restoring session from localStorage / cookie
   if (authLoading) {
@@ -42,8 +43,19 @@ function AppInner() {
   // Logged in → show full app
   return (
     <div className="app-layout">
-      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-      <Topbar collapsed={collapsed} />
+      {mobileOpen && (
+        <div className="mobile-overlay" onClick={() => setMobileOpen(false)} />
+      )}
+      <Sidebar 
+        collapsed={collapsed} 
+        onToggle={() => setCollapsed(!collapsed)} 
+        mobileOpen={mobileOpen}
+        onCloseMobile={() => setMobileOpen(false)}
+      />
+      <Topbar 
+        collapsed={collapsed} 
+        onToggleMobile={() => setMobileOpen(true)}
+      />
       <main className={`main-content ${collapsed ? 'collapsed' : ''}`}>
         <Routes>
           <Route path="/" element={<Dashboard />} />

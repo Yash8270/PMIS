@@ -4,7 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-const SERVER_PORT = process.env.SERVER_PORT || 5000;
+const SERVER_PORT = process.env.PORT || 5000;
 
 // ── Middleware ──────────────────────────────────────────────────────────────
 app.use(cors({

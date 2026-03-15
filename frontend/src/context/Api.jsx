@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PMISContext from './PMISContext';
 
 const Api = (props) => {
-    const host = 'http://localhost:5000';
+    const host = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
     // ── Auth State ───────────────────────────────────────────────────────────
     const [authdata, setAuthdata] = useState(null);
